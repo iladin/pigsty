@@ -38,6 +38,7 @@
 #---------------------------------------------------------------
 - name: IDENTITY
   hosts: all
+  connection: &connection "{% if inventory_hostname == 'localhost' %}local{% else %}ssh{% endif %}"
   gather_facts: no
   tags: id
   roles:
@@ -62,6 +63,7 @@
 - name: REPO
   become: yes
   hosts: infra
+  connection: *connection
   gather_facts: no
   tags: repo
   roles: [ { role: repo } ]
@@ -73,6 +75,7 @@
 - name: NODE INIT
   become: yes
   hosts: all
+  connection: *connection
   gather_facts: no
   tags: node-init
   roles:
@@ -86,6 +89,7 @@
 - name: INFRA INIT
   become: yes
   hosts: infra
+  connection: *connection
   gather_facts: no
   tags: infra
   roles: [ { role: infra } ]
@@ -97,6 +101,7 @@
 - name: NODE MONITOR
   become: yes
   hosts: all
+  connection: *connection
   gather_facts: no
   tags: node-monitor
   roles: [ { role: node_monitor } ]
@@ -108,6 +113,7 @@
 - name: ETCD INIT
   become: yes
   hosts: etcd
+  connection: *connection
   gather_facts: no
   tags: etcd
   roles: [ { role: etcd } ]   # init etcd on fixed group 'etcd'
@@ -119,6 +125,7 @@
 - name: MINIO INIT
   become: yes
   hosts: minio
+  connection: *connection
   gather_facts: no
   tags: minio
   roles: [ { role: minio } ]  # init minio on fixed group 'minio'
@@ -130,6 +137,7 @@
 - name: PGSQL INIT            # init pgsql on all nodes
   become: yes                 # with pg_cluster defined
   hosts: all
+  connection: *connection
   gather_facts: no
   tags: pgsql
   roles: [ { role: pgsql ,when: pg_cluster is defined } ]

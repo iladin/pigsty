@@ -27,7 +27,7 @@
           - DNS:localhost
           - "DNS:{{ nodename }}"
           - IP:127.0.0.1
-          - "IP:{{ inventory_hostname }}"
+          - "IP:{{ '127.0.0.1' if inventory_hostname == 'localhost' else inventory_hostname }}"
 
     - name: signing infra node cert
       connection: local
