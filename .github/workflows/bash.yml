@@ -1,0 +1,31 @@
+name: CI/CD Pipeline for Pigsty using README.md instructions
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  ansible-lint:
+    uses: ansible/ansible-content-actions/.github/workflows/ansible_lint.yaml@main
+    with:
+      args: '-p .'
+  ansible:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Python
+        uses: actions/setup-python@v2
+        with:
+          python-version: '3.12'
+      - name: Run three scripts
+        run: |
+          ./bootstrap
+          ./configure
+          ./install.yml
