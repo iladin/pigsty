@@ -9,11 +9,7 @@ on:
       - main
 
 jobs:
-  ansible-lint:
-    uses: ansible/ansible-content-actions/.github/workflows/ansible_lint.yaml@main
-    with:
-      args: '-p .'
-  ansible:
+  bash:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,5 +23,5 @@ jobs:
       - name: Run three scripts
         run: |
           ./bootstrap
-          ./configure
+          ./configure --non-interactive
           ./install.yml
