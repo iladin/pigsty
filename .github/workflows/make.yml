@@ -9,13 +9,13 @@ on:
       - main
 
 jobs:
-  bash:
+  make:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Run makefile
+      - name: Run bootstrap
         run: |
-         make deps
+         make bootstrap
